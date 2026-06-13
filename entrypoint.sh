@@ -1,5 +1,8 @@
 #!/bin/bash
 
-mkdir -p /home/container/public_html
+echo "Starting Apache PHP 5.6"
 
-exec apache2-foreground
+sed -i 's#/var/www/html#/home/container/public_html#g' \
+    /etc/apache2/sites-available/000-default.conf
+
+exec apachectl -D FOREGROUND
