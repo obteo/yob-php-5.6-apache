@@ -1,8 +1,13 @@
 #!/bin/bash
 
-echo "Starting Apache PHP 5.6"
+echo "=================================="
+echo " XLRstats PHP 5.6 Web Container"
+echo "=================================="
 
-sed -i 's#/var/www/html#/home/container/public_html#g' \
-    /etc/apache2/sites-available/000-default.conf
+mkdir -p /home/container/public_html
+mkdir -p /home/container/logs
+mkdir -p /home/container/status
+
+chown -R www-data:www-data /home/container
 
 exec apachectl -D FOREGROUND
