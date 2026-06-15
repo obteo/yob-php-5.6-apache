@@ -1,13 +1,17 @@
 #!/bin/bash
 
 echo "=================================="
-echo " XLRstats PHP 5.6 Web Container"
+echo " XLRstats Web v3"
 echo "=================================="
 
 mkdir -p /home/container/public_html
-mkdir -p /home/container/logs
 mkdir -p /home/container/status
+mkdir -p /home/container/logs
 
-chown -R www-data:www-data /home/container
+sed -i 's/^user = .*/user = container/' /etc/php/5.6/fpm/pool.d/www.conf
+sed -i 's/^group = .*/group = container/' /etc/php/5.6/fpm/pool.d/www.conf
+sed -i 's#listen = .*#listen = 127.0.0.1:9000#' /etc/php/5.6/fpm/pool.d/www.conf
 
-exec apachectl -D FOREGROUND
+php-fpm5.6 -D
+
+exec nginx -g "daemon off;"
